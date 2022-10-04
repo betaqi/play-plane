@@ -8,12 +8,10 @@ export default class Bullet {
 
   public move() {
     this.y -= this.speed
-    if(this.y <= this.border) {
-      this.destroy && this.destroy(this)
+    if (this.y <= this.border) {
+      this.destroy && this.destroy()
     }
   }
 
-  public destroy(a:any){
-    
-  }
+  public destroy() {}
 }

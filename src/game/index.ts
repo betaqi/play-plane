@@ -1,5 +1,7 @@
 import { Application } from 'pixi.js'
-import { setupPlane } from './plane'
+import { IPlane, setupPlane } from './plane'
+import Bullet from '../game/bullet'
+import { EnemyPlane } from '../game/enemy-plane'
 
 export * from './plane'
 
@@ -15,15 +17,17 @@ export function getRootContainer() {
   return game.stage
 }
 
-export function initGame(_plane: any, bullets: any) {
-  const plane = setupPlane(_plane, bullets)
+export function initGame(_plane: any, bullets: Bullet[], enemyPlane: EnemyPlane[]) {
+  const plane = setupPlane(_plane, bullets, enemyPlane)
 
   game.ticker.add(() => {
     plane.run()
+    plane.enemyRun()
   })
 
   return {
     plane,
-    bullets
+    bullets,
+    enemyPlane
   }
 }

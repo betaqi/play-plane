@@ -1,4 +1,5 @@
 import Buller from './bullet'
+import { EnemyPlane, initEnemyPlanes } from './enemy-plane'
 export interface IPlane {
   x: number
   y: number
@@ -10,6 +11,7 @@ export interface IPlane {
   bullets: Buller[]
   attack: () => void
   run: () => void
+  enemyRun: () => void
 }
 
 const defaultPosition = {
@@ -18,16 +20,26 @@ const defaultPosition = {
   speed: 5
 }
 
-export function setupPlane(plane: IPlane, bullets: Buller[] = [], options?: any): IPlane {
+export function setupPlane(
+  plane: IPlane,
+  bullets: Buller[],
+  enemyPlane: EnemyPlane[],
+  options?: any
+): IPlane {
   plane.bullets = bullets
   // init
   Object.assign(plane, options, defaultPosition)
+
+  setInterval(() => {
+    initEnemyPlanes(enemyPlane)
+  }, 3000)
 
   initMove(plane)
 
   initBulletRun(plane, bullets)
 
   initAttack(plane, bullets)
+  enemyPlanesRun(plane, enemyPlane)
 
   return plane
 }
@@ -63,8 +75,15 @@ function initAttack(plane: IPlane, bullets: Buller[]) {
     buller.destroy = () => {
       const index = bullets.indexOf(buller)
       bullets.splice(index, 1)
-      console.log(bullets)
     }
     bullets.push(buller)
+  }
+}
+
+function enemyPlanesRun(plane: IPlane, enemyPlane: EnemyPlane[]) {
+  plane.enemyRun = () => {
+    enemyPlane.forEach(enemy => {
+      enemy.move()
+    })
   }
 }
