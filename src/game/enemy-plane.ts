@@ -1,6 +1,8 @@
 export class EnemyPlane {
   public x: number = 0
   public y: number = 0
+  public width: number = 197
+  public height: number = 134
   public speed: number = 1
   public bottomBoeder: number = 800
 
